@@ -61,6 +61,11 @@ function love.update(dt)
         end
     end
 
+    for i, b in ipairs(bullets) do
+        b.x = b.x + math.cos(b.direction) * b.speed * dt
+        b.y = b.y + math.sin(b.direction) * b.speed * dt
+    end
+
 end
 
 -- 45 * (pi / 180)
@@ -98,6 +103,20 @@ function love.draw()
         )
     end
 
+    -- Iterate in bullets
+    for i, b in ipairs(bullets) do
+        love.graphics.draw(
+            sprites.bullet, 
+            b.x, 
+            b.y,
+            nil, -- rotation value
+            0.5, -- scale the image
+            0.5, -- scale the image
+            sprites.bullet:getWidth() / 2,
+            sprites.bullet:getHeight() / 2
+        )
+    end
+
 end -- end love.draw
 
 
@@ -123,9 +142,27 @@ function spawnZombie()
     table.insert(zombies, zombie)
 end
 
+-- Create a function to create bullets
+function spawnBullet()
+    bullet = {}
+    bullet.x = player.x
+    bullet.y = player.y
+    bullet.speed = 500
+    bullet.direction = player_mouse_angle()
+
+    table.insert(bullets, bullet)
+end
+
 function love.keypressed(key, scancode, isrepeat)
     if key == "space" then
         spawnZombie()
+    end
+end
+
+-- Action to player shoot
+function love.mousepressed(x, y, b, istouch)
+    if b == 1 then
+        spawnBullet()
     end
 end
 
