@@ -21,6 +21,9 @@ function love.load()
     player.width = sprites.player:getWidth() / 2
     player.height = sprites.player:getHeight() / 2
     player.speed = globalSpeed
+
+    -- Zombies
+    zombies = {}
 end
 
 -- Update
@@ -64,11 +67,35 @@ function love.draw()
         player.width, 
         player.height
     )
-end
+
+    -- Zombie Player
+    -- iterate over the zombies object and create
+    for i, z in ipairs(zombies) do
+        love.graphics.draw(sprites.zombie, z.x, z.y)
+    end
+
+end -- end love.draw
 
 
 function player_mouse_angle()
     -- return the radian value to the player
     ctx = math.atan2(love.mouse.getY() - player.y, love.mouse.getX() - player.x)
     return ctx
+end
+
+-- Create a new zombie and add to zombies object
+function spawnZombie()
+    -- create a singular zombie
+    zombie = {}
+    zombie.x = math.random(0, love.graphics.getWidth())
+    zombie.y = math.random(0, love.graphics.getHeight())
+    zombie.spped = 100
+
+    table.insert(zombies, zombie)
+end
+
+function love.keypressed(key, scancode, isrepeat)
+    if key == "space" then
+        spawnZombie()
+    end
 end
