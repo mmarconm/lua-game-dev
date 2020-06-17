@@ -46,6 +46,12 @@ function love.update(dt)
         player.x = player.x + player.speed * dt
     end
 
+    -- Zombie moviment calculation
+    for i, z in ipairs(zombies) do
+        z.y = z.y + math.sin(zombie_player_angle(z)) * z.speed * dt
+        z.x = z.x + math.cos(zombie_player_angle(z)) * z.speed * dt
+    end
+
 end
 
 -- 45 * (pi / 180)
@@ -103,7 +109,7 @@ function spawnZombie()
     zombie = {}
     zombie.x = math.random(0, love.graphics.getWidth())
     zombie.y = math.random(0, love.graphics.getHeight())
-    zombie.spped = 100
+    zombie.speed = 100
 
     table.insert(zombies, zombie)
 end
