@@ -24,6 +24,8 @@ function love.load()
 
     -- Zombies
     zombies = {}
+
+    bullets = {}
 end
 
 -- Update
@@ -50,6 +52,13 @@ function love.update(dt)
     for i, z in ipairs(zombies) do
         z.y = z.y + math.sin(zombie_player_angle(z)) * z.speed * dt
         z.x = z.x + math.cos(zombie_player_angle(z)) * z.speed * dt
+
+        -- check if the zombie colides with the player
+        if distanceBetween(z.x, z.y, player.x, player.y) < 40 then
+            for i, z in ipairs(zombies) do
+                zombies[i] = nil
+            end
+        end
     end
 
 end
@@ -118,4 +127,9 @@ function love.keypressed(key, scancode, isrepeat)
     if key == "space" then
         spawnZombie()
     end
+end
+
+-- Calculates the distances btw player and the zombie
+function distanceBetween(x1, y1, x2, y2)
+    return math.sqrt(((y2 - y1)^2) + ((x2 - x1)^2))
 end
