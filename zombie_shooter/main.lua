@@ -71,7 +71,16 @@ function love.draw()
     -- Zombie Player
     -- iterate over the zombies object and create
     for i, z in ipairs(zombies) do
-        love.graphics.draw(sprites.zombie, z.x, z.y)
+        love.graphics.draw(
+            sprites.zombie, 
+            z.x, 
+            z.y, 
+            zombie_player_angle(z),
+            nil,
+            nil,
+            sprites.zombie:getWidth() / 2,
+            sprites.zombie:getHeight() / 2
+        )
     end
 
 end -- end love.draw
@@ -80,6 +89,11 @@ end -- end love.draw
 function player_mouse_angle()
     -- return the radian value to the player
     ctx = math.atan2(love.mouse.getY() - player.y, love.mouse.getX() - player.x)
+    return ctx
+end
+
+function zombie_player_angle(enemy)
+    ctx = math.atan2(player.y - enemy.y, player.x - enemy.x)
     return ctx
 end
 
