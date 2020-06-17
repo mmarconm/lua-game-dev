@@ -25,7 +25,8 @@ function love.update(dt)
             timer = timer - dt
         else
             timer = 0
-        end
+            gameState = 1 -- stop the game when timer resets to 0
+         end
     end
 end
 
@@ -39,7 +40,7 @@ function love.draw()
     -- love.graphics.setColor(255, 0, 255)
     -- love.graphics.setFont(myFont)
     -- love.graphics.print(score)
-    showDisplay({100, 250, 0}, math.ceil(timer), {50, 0})
+    showDisplay({100, 250, 0}, math.ceil(timer), {100, 0})
 
     -- Set score Display
     showDisplay({255, 0, 255}, score, {0, 0})
